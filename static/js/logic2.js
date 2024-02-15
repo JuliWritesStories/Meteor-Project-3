@@ -205,14 +205,15 @@ for(i =0;i<value.length;i++){
   console.log("metnames",met_names);
         // Set up the trace for bubble chart
         let trace1 = {
-            x: met_names,
+            x:  met_years,
             y: mass_values,
-            text: met_years,
+            text: met_names,
             mode: "markers",
             marker: {
-                size: mass_values,
-                color: met_names,
-                colorscale: "Earth"
+                size:mass_values.map(mass => Math.sqrt(mass)/10),
+                color: met_years,
+                colorscale: "Viridis",                
+                showscale: true // Show color scale
             }
         };
 
@@ -221,8 +222,8 @@ for(i =0;i<value.length;i++){
             title: "Meteroides & Mass",
             hovermode: "closest",
             xaxis: {title: "Meteroides"},
-            height: 550,
-            width: 1000 
+            height: 700,
+            width: 1200
         };
 
         // Call Plotly to plot the bubble chart
