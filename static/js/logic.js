@@ -130,7 +130,7 @@ function createMap(meteroides,heatArray) {
     legend.onAdd = function(map) {
         var div = L.DomUtil.create('div', 'info legend');
        
-        var depthColors = ['#00FF00', '#FFFF00', '#FFA500',  '#41b6c4',, '#081d58',"FF0000"];
+        var depthColors = ['#00FF00', '#FFFF00', '#FFA500',  '#41b6c4', '#081d58','#FF0000'];
         var depthLabels = ['0 - 10k', '10k - 50k', '50k - 100k', '100k - 207k', '207k - 409k', '> 409k'];
 
         for (var i = 0; i < depthColors.length; i++) {
