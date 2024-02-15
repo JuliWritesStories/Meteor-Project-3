@@ -149,7 +149,13 @@ for(i =0;i<value.length;i++){
           y: yticks,
           text: labels,
           type: "bar",
-          orientation: "h"
+          orientation: "h",
+          mode: "markers",
+            marker: {                
+                color: xticks,
+                colorscale: "Viridis",                
+                showscale: true // Show color scale
+            }
       };
 
       // Setup the layout
