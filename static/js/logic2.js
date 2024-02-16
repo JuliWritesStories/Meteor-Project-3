@@ -52,6 +52,7 @@ d3.json(url).then(function(data) {
    buildMetadata(sample_one);
      buildBarChart(sample_one);
      buildBubbleChart(sample_one);
+     buildPieChart(sample_one);
     // buildGaugeChart(sample_one);
     });
   }
@@ -240,6 +241,80 @@ let met_years_sorted = met_years.slice(0, 10).reverse();
     });
 };
 
+// // Function that builds the pie chart
+
+function buildPieChart(sample) {
+  let sampleInfo = [];
+  // Use D3 to retrieve all of the data
+  d3.json(url).then((data) => {
+      for (let i = 0; i < data.length; i++) {
+          let metadata = {
+              "name": data[i].name,
+              "year": data[i].year,
+              "mass": data[i].mass,
+              "class": data[i].recclass,
+              "fall": data[i].fall,
+              "id": data[i].id
+          };
+          sampleInfo.push(metadata);
+      }
+      // Filter based on the value of the sample
+      let value = sampleInfo.filter(result => result.year === sample);
+      if (value.length === 0) {
+          console.error(`No data found for class: ${sample}`);
+          return;
+      }
+  console.log('value',value);
+      // Get the first index from the array
+      let valueData = value[0];
+      let met_names =[];
+      let met_years =[];
+      let mass_values =[];
+      let fall_values = [];
+      let ids =[];
+for(i =0;i<value.length;i++){
+  // Get the names, years, and mass
+   met_names.push(value[i].name);
+   met_years.push(value[i].year);
+   mass_values.push(value[i].mass);
+   fall_values.push(value[i].fall);
+   ids.push(value[i].id);
+}
+  console.log("metnames",met_names);
+  // Set top ten items to display in descending order
+  // Create labels for the pie chart
+  let labels = met_names.slice(0, 10);
+  // Get corresponding values for the pie chart
+  let values = mass_values.slice(0, 10);
+  // Create a trace for the pie chart
+  let trace = {
+      labels: labels,
+      values: values,
+      type: 'pie',
+      textinfo: 'percent',
+      mode: "markers",
+            marker: {
+                color: values,
+                colorscale: "Viridis",
+                showscale: true // Show color scale
+            }
+  };
+  // Set up the layout for the pie chart
+  let layout = {
+      title: "Top 10 Mass Distribution"
+  };
+  // Plot the pie chart
+  Plotly.newPlot("pie", [trace], layout);
+});
+}
+
+
+
+
+
+
+
+
 //   // Function that builds the gauge chart
 //   function buildGaugeChart(sample) {
   
@@ -310,6 +385,7 @@ function optionChanged(value) {
     buildMetadata(value);
     buildBarChart(value);
     buildBubbleChart(value);
+    buildPieChart(value);
     // buildGaugeChart(value);
 };
 
