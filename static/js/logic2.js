@@ -26,7 +26,7 @@ d3.json(url).then(function(data) {
       }
      
       let unique_types = [];
-      types.forEach(item => {
+      years.forEach(item => {
           if (!unique_types.includes(item)) {
             unique_types.push(item);
           }
@@ -43,7 +43,7 @@ d3.json(url).then(function(data) {
             .property("value",id);
         });
            // Set the first sample from the list
-    let sample_one = types[0];
+    let sample_one = unique_types[0];
 
     // Log the value of sample_one
     //  console.log(sample_one);
@@ -74,7 +74,7 @@ function buildMetadata(sample) {
         
 
         // Filter based on the value of the sample
-        let value = metadats.filter(result => result.class == sample);
+        let value = metadats.filter(result => result.year == sample);
 
         // Log the array of metadata objects after the have been filtered
         // console.log(value)
@@ -113,10 +113,11 @@ function buildBarChart(sample) {
           };
           sampleInfo.push(metadata);
       }
-
+console.log("sampleInfo",sampleInfo);
       // Filter based on the value of the sample
-      let value = sampleInfo.filter(result => result.class === sample);
-
+      let value = sampleInfo.filter(result => result.year == sample);
+      console.log('sample',sample);
+    console.log('value',value);
       if (value.length === 0) {
           console.error(`No data found for class: ${sample}`);
           return;
@@ -186,7 +187,7 @@ function buildBubbleChart(sample) {
       }
 
       // Filter based on the value of the sample
-      let value = sampleInfo.filter(result => result.class === sample);
+      let value = sampleInfo.filter(result => result.year == sample);
 
       if (value.length === 0) {
           console.error(`No data found for class: ${sample}`);
@@ -207,17 +208,19 @@ for(i =0;i<value.length;i++){
    ids.push(value[i].id);
 
 }
-      
+let met_names_sorted = met_names.slice(0, 10).map(id => ` ${id}`).reverse();
+let mass_values_sorted = mass_values.slice(0, 10).reverse();
+let met_years_sorted = met_years.slice(0, 10).reverse();
   console.log("metnames",met_names);
         // Set up the trace for bubble chart
         let trace1 = {
-            x:  met_years,
-            y: mass_values,
-            text: met_names,
+            x:  met_names_sorted,
+            y: mass_values_sorted,
+            text: met_names_sorted,
             mode: "markers",
             marker: {
-                size:mass_values.map(mass => Math.sqrt(mass)/10),
-                color: met_years,
+                size:mass_values_sorted.map(mass => Math.sqrt(mass)/2),
+                color: mass_values_sorted,
                 colorscale: "Viridis",                
                 showscale: true // Show color scale
             }

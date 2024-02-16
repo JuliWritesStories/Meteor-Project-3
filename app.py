@@ -8,7 +8,7 @@ app.secret_key = 'fasdgfdgdfg'
 
 @app.route('/')
 def home():
-   return render_template('index.html')
+   return render_template('charts.html')
 
 @app.route('/maps')
 def maps():
