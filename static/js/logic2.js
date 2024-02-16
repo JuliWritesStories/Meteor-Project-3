@@ -29,6 +29,7 @@ d3.json(url).then(function(data) {
       years.forEach(item => {
           if (!unique_types.includes(item)) {
             unique_types.push(item);
+            unique_types.sort((a, b) => b - a);
           }
       });
 
@@ -53,7 +54,7 @@ d3.json(url).then(function(data) {
      buildBarChart(sample_one);
      buildBubbleChart(sample_one);
      buildPieChart(sample_one);
-    // buildGaugeChart(sample_one);
+     buildClassBarChart(sample_one);
     });
   }
 
@@ -76,13 +77,36 @@ function buildMetadata(sample) {
 
         // Filter based on the value of the sample
         let value = metadats.filter(result => result.year == sample);
-
+           
         // Log the array of metadata objects after the have been filtered
         // console.log(value)
-
-        // Get the first index from the array
-        let valueData = value[0];
-
+        
+        
+        let MassData =[];
+        let classData =[];
+        let nameData =[];
+        let total_meteroites = value.length;
+        for ( i =0;i< value.length;i++){
+            MassData.push(value[i].mass);
+            classData.push(value[i].class);
+            nameData.push(value[i].name);
+        }
+        let total_mass =0;
+        
+        var max_mass = Math.max(...MassData);
+        var min_mass = Math.min(...MassData);
+        let unique_class = [];
+        classData.forEach(item => {
+            if (!unique_class.includes(item)) {
+                unique_class.push(item);
+            }
+        });
+        let valueData ={
+            "Max Mass" :max_mass,
+            "Min Mass" :min_mass,
+            "Total Meteroites" : total_meteroites,
+            "Meteroite Types" :unique_class.length
+        }
         // Clear out metadata
         d3.select("#sample-metadata").html("");
 
@@ -117,6 +141,7 @@ function buildBarChart(sample) {
 console.log("sampleInfo",sampleInfo);
       // Filter based on the value of the sample
       let value = sampleInfo.filter(result => result.year == sample);
+      value.sort((a, b) => b.mass - a.mass);
       console.log('sample',sample);
     console.log('value',value);
       if (value.length === 0) {
@@ -132,9 +157,11 @@ console.log("sampleInfo",sampleInfo);
       let ids =[];
 for(i =0;i<value.length;i++){
   // Get the names, years, and mass
+  
    met_names.push(value[i].name);
    met_years.push(value[i].year);
    mass_values.push(value[i].mass);
+   //mass_values.sort((a, b) => b - a);
    ids.push(value[i].id);
 
 }
@@ -149,13 +176,13 @@ for(i =0;i<value.length;i++){
       let trace = {
           x: xticks,
           y: yticks,
-          text: labels,
+        //   text: labels,
           type: "bar",
           orientation: "h",
           mode: "markers",
             marker: {                
                 color: xticks,
-                colorscale: "Viridis",                
+                colorscale: "YlOrRd",                
                 showscale: true // Show color scale
             }
       };
@@ -170,6 +197,75 @@ for(i =0;i<value.length;i++){
   });
 }
 
+function buildClassBarChart(sample) {
+    let sampleInfo = [];
+  
+    // Use D3 to retrieve all of the data
+    d3.json(url).then((data) => {
+        for (let i = 0; i < data.length; i++) {
+            let metadata = {
+                "name": data[i].name,
+                "year": data[i].year,
+                "mass": data[i].mass,
+                "class": data[i].recclass,
+                "id": data[i].id
+            };
+            sampleInfo.push(metadata);
+        }
+  console.log("sampleInfo",sampleInfo);
+        // Filter based on the value of the sample
+        let value = sampleInfo.filter(result => result.year == sample);
+        console.log('sample',sample);
+      console.log('value',value);
+        if (value.length === 0) {
+            console.error(`No data found for class: ${sample}`);
+            return;
+        }
+    console.log('value',value);
+        // Get the first index from the array
+        let valueData = value[0];
+        let met_class =[];
+        let met_years =[];
+        let mass_values =[];
+        let ids =[];
+  for(i =0;i<value.length;i++){
+    // Get the names, years, and mass
+    met_class.push(value[i].class);
+     met_years.push(value[i].year);
+     mass_values.push(value[i].mass);
+     ids.push(value[i].id);
+  
+  }
+        
+    
+        // Set top ten items to display in descending order
+        let xticks = mass_values.slice(0, 10).map(id => ` ${id}`).reverse();
+        let yticks = met_class.slice(0, 10).reverse();
+        let labels = met_years.slice(0, 10).reverse();
+        console.log("hi",xticks,yticks,labels);
+
+        // Set up the trace for the bar chart
+        let trace = {
+            x: xticks,
+            y: yticks,           
+            type: "bar",
+            mode: "markers",
+              marker: {                
+                  color: xticks,
+                  colorscale: "YlOrRd",                
+                  showscale: true // Show color scale
+              }
+        };
+  
+        // Setup the layout
+        let layout = {
+            title: "Top 10 Mass"
+        };
+  
+        // Call Plotly to plot the bar chart
+        Plotly.newPlot("hbar", [trace], layout);
+    });
+  }
 // // Function that builds the bubble chart
 function buildBubbleChart(sample) {
 
@@ -222,7 +318,7 @@ let met_years_sorted = met_years.slice(0, 10).reverse();
             marker: {
                 size:mass_values_sorted.map(mass => Math.sqrt(mass)/2),
                 color: mass_values_sorted,
-                colorscale: "Viridis",                
+                colorscale: "YlOrRd",                
                 showscale: true // Show color scale
             }
         };
@@ -244,68 +340,72 @@ let met_years_sorted = met_years.slice(0, 10).reverse();
 // // Function that builds the pie chart
 
 function buildPieChart(sample) {
-  let sampleInfo = [];
-  // Use D3 to retrieve all of the data
-  d3.json(url).then((data) => {
-      for (let i = 0; i < data.length; i++) {
-          let metadata = {
-              "name": data[i].name,
-              "year": data[i].year,
-              "mass": data[i].mass,
-              "class": data[i].recclass,
-              "fall": data[i].fall,
-              "id": data[i].id
-          };
-          sampleInfo.push(metadata);
-      }
-      // Filter based on the value of the sample
-      let value = sampleInfo.filter(result => result.year === sample);
-      if (value.length === 0) {
-          console.error(`No data found for class: ${sample}`);
-          return;
-      }
-  console.log('value',value);
-      // Get the first index from the array
-      let valueData = value[0];
-      let met_names =[];
-      let met_years =[];
-      let mass_values =[];
-      let fall_values = [];
-      let ids =[];
-for(i =0;i<value.length;i++){
-  // Get the names, years, and mass
-   met_names.push(value[i].name);
-   met_years.push(value[i].year);
-   mass_values.push(value[i].mass);
-   fall_values.push(value[i].fall);
-   ids.push(value[i].id);
-}
-  console.log("metnames",met_names);
-  // Set top ten items to display in descending order
-  // Create labels for the pie chart
-  let labels = met_names.slice(0, 10);
-  // Get corresponding values for the pie chart
-  let values = mass_values.slice(0, 10);
-  // Create a trace for the pie chart
-  let trace = {
-      labels: labels,
-      values: values,
-      type: 'pie',
-      textinfo: 'percent',
-      mode: "markers",
+    let sampleInfo = [];
+    // Use D3 to retrieve all of the data
+    d3.json(url).then((data) => {
+        for (let i = 0; i < data.length; i++) {
+            let metadata = {
+                "name": data[i].name,
+                "year": data[i].year,
+                "mass": data[i].mass,
+                "class": data[i].recclass,
+                "fall": data[i].fall,
+                "id": data[i].id
+            };
+            sampleInfo.push(metadata);
+        }
+        // Filter based on the value of the sample
+        let value = sampleInfo.filter(result => result.year == sample);
+        if (value.length === 0) {
+            console.error(`No data found for class: ${sample}`);
+            return;
+        }
+
+        // Get the first index from the array
+        let valueData = value[0];
+        let met_names =[];
+        let met_years =[];
+        let mass_values =[];
+        let fall_values = [];
+        let ids =[];
+        for(i =0;i<value.length;i++){
+            // Get the names, years, and mass
+            met_names.push(value[i].name);
+            met_years.push(value[i].year);
+            mass_values.push(value[i].mass);
+            fall_values.push(value[i].fall);
+            ids.push(value[i].id);
+        }
+
+        // Set top ten items to display in descending order
+        // Create labels for the pie chart
+        let labels = met_names.slice(0, 10);
+        // Get corresponding values for the pie chart
+        let values = mass_values.slice(0, 10);
+        // Create a trace for the pie chart
+        let trace = {
+            labels: labels,
+            values: values,
+            type: 'pie',
+            hole: 0.5, // Set the size of the hole for the donut chart
+            textinfo: 'percent',
+            mode: "markers",
             marker: {
-                color: values,
-                colorscale: "Viridis",
-                showscale: true // Show color scale
+                //color: values,
+                colors: ['rgb(255, 250, 190)','rgb(255, 247, 180)','rgb(255, 237, 160)', 'rgb(254, 217, 118)', 'rgb(254, 178, 76)', 'rgb(253, 141, 60)', 'rgb(252, 78, 42)', 'rgb(227, 26, 28)', 'rgb(189, 0, 38)', 'rgb(128, 0, 38)','rgb(255, 255, 204)'], // Set custom colors for the slices
+                // showscale: true // Show color scale
             }
-  };
-  // Set up the layout for the pie chart
-  let layout = {
-      title: "Top 10 Mass Distribution"
-  };
-  // Plot the pie chart
-  Plotly.newPlot("pie", [trace], layout);
-});
+
+        };
+        // Set up the layout for the pie chart
+        let layout = {
+            title: "Top 10 Mass Distribution",
+            width: 800, // Set the width of the chart
+            height: 600, // Set the height of the chart
+        };
+        // Plot the pie chart
+        Plotly.newPlot("pie", [trace], layout);
+    });
 }
 
 
@@ -315,66 +415,7 @@ for(i =0;i<value.length;i++){
 
 
 
-//   // Function that builds the gauge chart
-//   function buildGaugeChart(sample) {
-  
-//       // Use D3 to retrieve all of the data
-//       d3.json(url).then((data) => {
-  
-//           // Retrieve all metadata
-//           let metadata = data.metadata;
-  
-//           // Filter based on the value of the sample
-//           let value = metadata.filter(result => result.id == sample);
-  
-//           // Log the array of metadata objects after the have been filtered
-//           console.log(value)
-  
-//           // Get the first index from the array
-//           let valueData = value[0];
-  
-//           // Use Object.entries to get the key/value pairs and put into the demographics box on the page
-//           let washFrequency = Object.values(valueData)[6];
-          
-//           // Set up the trace for the gauge chart
-//           let trace2 = {
-//               value: washFrequency,
-//               domain: {x: [0,1], y: [0,1]},
-//               title: {
-//                   text: "<b>Belly Button Washing Frequency</b><br>Scrubs per Week",
-//                   font: {color: "black", size: 16}
-//               },
-//               type: "indicator",
-//               mode: "gauge+number",
-//               gauge: {
-//                   axis: {range: [0,10], tickmode: "linear"},
-//                   bar: {color: "black"},
-//                   steps: [
-//                       {range: [0, 1], color: "rgba(255, 255, 255, 0)"},
-//                       {range: [1, 2], color: "rgba(232, 226, 202, .5)"},
-//                       {range: [2, 3], color: "rgba(210, 206, 145, .5)"},
-//                       {range: [3, 4], color:  "rgba(202, 209, 95, .5)"},
-//                       {range: [4, 5], color:  "rgba(184, 205, 68, .5)"},
-//                       {range: [5, 6], color: "rgba(170, 202, 42, .5)"},
-//                       {range: [6, 7], color: "rgba(142, 178, 35 , .5)"},
-//                       {range: [7, 8], color:  "rgba(110, 154, 22, .5)"},
-//                       {range: [8, 9], color: "rgba(50, 143, 10, 0.5)"},
-//                       {range: [9, 10], color: "rgba(14, 127, 0, .5)"},
-//                   ]
-//               } 
-//           };
-  
-//           // Set up the Layout
-//           let layout = {
-//               width: 400, 
-//               height: 400,
-//               margin: {t: 0, b:0}
-//           };
-  
-//           // Call Plotly to plot the gauge chart
-//           Plotly.newPlot("gauge", [trace2], layout)
-//       });
-//   };
+
 
 function optionChanged(value) { 
 
@@ -386,7 +427,8 @@ function optionChanged(value) {
     buildBarChart(value);
     buildBubbleChart(value);
     buildPieChart(value);
-    // buildGaugeChart(value);
+    buildClassBarChart(value);
+    
 };
 
   // Call the initialize function
