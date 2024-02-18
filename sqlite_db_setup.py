@@ -8,7 +8,10 @@ connection = sqlite3.connect('meteorite_landing.db')
 cursor = connection.cursor()
 
 # Table Definition
-create_table = '''CREATE TABLE IF NOT EXISTS meteorite_landing(
+
+# drop_table ='''DROP TABLE IF EXISTS meteorite_landing;'''
+
+create_table = '''CREATE TABLE meteorite_landing(
                   meteorite_name TEXT NOT NULL,
                   id INTEGER PRIMARY KEY AUTOINCREMENT,
                   nametype TEXT,
