@@ -7,8 +7,10 @@ import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
+from sqlalchemy import desc
 
 from flask import Flask, jsonify
+
 
 
 
@@ -130,11 +132,14 @@ def meteorites_GrpBy(byyear):
 
     # """Return a list of all Meteorite names"""
     # # Query all Meteorite
-    results =  session.query(Meteorite.fall,Meteorite.year,func.count(Meteorite.meteorite_name)) \
+    results =  session.query(Meteorite.fall,Meteorite.year,Meteorite.mass,func.count(Meteorite.meteorite_name)) \
                 .filter(Meteorite.year == byyear) \
                 .group_by(Meteorite.fall) \
+                .order_by(desc(func.count(Meteorite.mass))) \
                 .all()
 
+
+    
     session.close()
 
     result_dict= []

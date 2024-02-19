@@ -102,7 +102,7 @@ function createMap(meteroides,heatArray) {
 
     // Create an overlay object to hold our overlay
     var overlayMaps = {
-        "meteroites": meteroites,
+        "meteroites": meteroides,
         "heatlayer" :heat
     };
 

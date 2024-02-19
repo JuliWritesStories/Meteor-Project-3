@@ -285,7 +285,19 @@ for(i =0;i<value.length;i++){
           mode: "markers",
             marker: {                
                 color: xticks,
-                colorscale: "YlOrRd",                
+                // colorscale: "YlOrRd",    
+                colors: [
+                  'rgb(255, 255, 204)',
+                   'rgb(128, 0, 38)',
+                   'rgb(189, 0, 38)',
+                   'rgb(227, 26, 28)',
+                   'rgb(252, 78, 42)',
+                   'rgb(253, 141, 60)',
+                   'rgb(254, 178, 76)',
+                   'rgb(254, 217, 118)',
+                  'rgb(255, 237, 160)',
+                  'rgb(255, 247, 180)',
+                  'rgb(255, 250, 190)'],               
                 showscale: true // Show color scale
             }
       };
@@ -301,10 +313,80 @@ for(i =0;i<value.length;i++){
       Plotly.newPlot("bar", [trace], layout);
   });
 };
+
+function buildPieChart(sample) {
+    let sampleInfo = [];
+    // Use D3 to retrieve all of the data
+    d3.json(url).then((data) => {
+        for (let i = 0; i < data.length; i++) {
+            let metadata = {
+                "name": data[i].name,
+                "year": data[i].year,
+                "mass": data[i].mass,
+                "class": data[i].recclass,
+                "fall": data[i].fall,
+                "id": data[i].id
+            };
+            sampleInfo.push(metadata);
+        }
+        // Filter based on the value of the sample
+        let value = sampleInfo.filter(result => result.year == sample);
+        if (value.length === 0) {
+            console.error(`No data found for class: ${sample}`);
+            return;
+        }
+
+        // Get the first index from the array
+        let valueData = value[0];
+        let met_names =[];
+        let met_years =[];
+        let mass_values =[];
+        let fall_values = [];
+        let ids =[];
+        for(i =0;i<value.length;i++){
+            // Get the names, years, and mass
+            met_names.push(value[i].name);
+            met_years.push(value[i].year);
+            mass_values.push(value[i].mass);
+            fall_values.push(value[i].fall);
+            ids.push(value[i].id);
+        }
+
+        // Set top ten items to display in descending order
+        // Create labels for the pie chart
+        let labels = met_names.slice(0, 10);
+        // Get corresponding values for the pie chart
+        let values = mass_values.slice(0, 10);
+        // Create a trace for the pie chart
+        let trace = {
+            labels: labels,
+            values: values,
+            type: 'pie',
+            hole: 0.5, // Set the size of the hole for the donut chart
+            textinfo: 'percent',
+            mode: "markers",
+            marker: {
+                //color: values,
+                colors: ['rgb(255, 250, 190)','rgb(255, 247, 180)','rgb(255, 237, 160)', 'rgb(254, 217, 118)', 'rgb(254, 178, 76)', 'rgb(253, 141, 60)', 'rgb(252, 78, 42)', 'rgb(227, 26, 28)', 'rgb(189, 0, 38)', 'rgb(128, 0, 38)','rgb(255, 255, 204)'], // Set custom colors for the slices
+                // showscale: true // Show color scale
+            }
+
+        };
+        // Set up the layout for the pie chart
+        let layout = {
+            title: "Top 10 Mass Distribution",
+            width: 800, // Set the width of the chart
+            height: 600, // Set the height of the chart
+        };
+        // Plot the pie chart
+        Plotly.newPlot("pie", [trace], layout);
+    });
+}
+
 // // Function that builds the bubble chart
 function buildBubbleChart(sample) {
     let url_yr = "/meteorites/"+sample;
-    console.log(url_yr);
+    console.log('url_yr1',url_yr);
     // Use D3 to retrieve all of the data
     d3.json(url_yr).then((data) => {
       let sampleInfo =[];
@@ -333,7 +415,7 @@ function buildBubbleChart(sample) {
       let met_years =[];
       let mass_values =[];
       let ids =[];
-for(i =0;i<value.length;i++){
+for(i =0;i<10;i++){
   // Get the names, years, and mass
    met_names.push(value[i].name);
    met_years.push(value[i].year);
@@ -341,20 +423,32 @@ for(i =0;i<value.length;i++){
    ids.push(value[i].id);
 
 }
-let met_names_sorted = met_names.slice(0, 10).map(id => ` ${id}`).reverse();
-let mass_values_sorted = mass_values.slice(0, 10).reverse();
-//let met_years_sorted = met_years.slice(0, 10).reverse();
+// let met_names_sorted = met_names.slice(0, 10).map(id => ` ${id}`).reverse();
+// let mass_values_sorted = mass_values.slice(0, 10).reverse();
+// //let met_years_sorted = met_years.slice(0, 10).reverse();
   console.log("metnames",met_names);
         // Set up the trace for bubble chart
         let trace1 = {
-            x:  met_names_sorted,
-            y: mass_values_sorted,
-            text: met_names_sorted,
+            x:  met_names,
+            y: mass_values,
+            text: met_names,
             mode: "markers",
             marker: {
-                size:mass_values_sorted.map(mass => Math.sqrt(mass)/2),
-                color: mass_values_sorted,
-                colorscale: "YlOrRd",                
+                size:mass_values.map(mass => Math.sqrt(mass)/2),
+                color: mass_values,
+                // colorscale: "YlOrRd",      
+                colors: [
+                  'rgb(255, 255, 204)',
+                   'rgb(128, 0, 38)',
+                   'rgb(189, 0, 38)',
+                   'rgb(227, 26, 28)',
+                   'rgb(252, 78, 42)',
+                   'rgb(253, 141, 60)',
+                   'rgb(254, 178, 76)',
+                   'rgb(254, 217, 118)',
+                  'rgb(255, 237, 160)',
+                  'rgb(255, 247, 180)',
+                  'rgb(255, 250, 190)'],           
                 showscale: true // Show color scale
             }
         };
@@ -365,8 +459,8 @@ let mass_values_sorted = mass_values.slice(0, 10).reverse();
             hovermode: "closest",
             xaxis: {title: "Meteroites"},
             yaxis: {title: "Mass(g)"},
-            height: 700,
-            width: 1200
+            height: 1000,
+            width: 1500
         };
 
         // Call Plotly to plot the bubble chart
