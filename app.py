@@ -1,13 +1,17 @@
+
+import string
 import flask
 from flask_cors import CORS
 import flask_cors
 import numpy as np
+from requests import session
 
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
-from sqlalchemy import create_engine, func
+from sqlalchemy import create_engine, func,literal_column
 from sqlalchemy import desc
+from sqlalchemy.sql.expression import case
 
 from flask import Flask, jsonify
 
@@ -130,16 +134,11 @@ def meteorites_GrpBy(byyear):
     # # Create our session (link) from Python to the DB
     session = Session(engine)
 
-    # """Return a list of all Meteorite names"""
-    # # Query all Meteorite
-    results =  session.query(Meteorite.fall,Meteorite.year,Meteorite.mass,func.count(Meteorite.meteorite_name)) \
+    results =  session.query(Meteorite.fall,Meteorite.year,func.count(Meteorite.meteorite_name)) \
                 .filter(Meteorite.year == byyear) \
                 .group_by(Meteorite.fall) \
-                .order_by(desc(func.count(Meteorite.mass))) \
                 .all()
 
-
-    
     session.close()
 
     result_dict= []
@@ -183,6 +182,45 @@ def meteorites_ByClass(byyear):
 
 
     return jsonify(result_dict)
+
+@app.route("/meteorites_bymass/<byyear>")
+def meteorites_byMass(byyear):
+     # # Create our session (link) from Python to the DB
+    session = Session(engine)
+
+   
+    # """Return a list of all Meteorite names"""
+    # # Query all Meteorite
+    # results =  session.query(
+    #       Meteorite.recclass,
+    #     case([
+    #     (getattr(Meteorite, "mass(g)") <= 100, "0-100g"),
+    #     (getattr(Meteorite, "mass(g)") <= 1000, "101-1000g"),
+    #     (getattr(Meteorite, "mass(g)") <= 10000, "1001-10000g"),
+    #     (getattr(Meteorite, "mass(g)") == 100000, "10001-100000g")
+    #     ], else_="100001g+").label("mass_group"),
+    #    func.count().label("count")
+    #    ).filter(Meteorite.year == byyear).group_by(Meteorite.recclass, "mass_group").all()
+
+    results = session.query(getattr(Meteorite, "mass(g)"),Meteorite.year).filter(Meteorite.year == byyear).all()
+
+
+    session.close()
+
+
+
+    result_dict= []
+
+
+    for result in results:
+      result_dict.append({
+           "mass": result[0],
+           "year": result[1],
+          
+          
+     })
+    return jsonify(result_dict)
+    
 
 
  

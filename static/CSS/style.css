@@ -8,4 +8,34 @@ body {
   html {
     height: 100%;
   }
+
+  .col-md-12.jumbotron.text-center {
+    background-color: #EB984E; /* Set your desired color here */
+}
+
+.well {
+  background-color: #FFC857 ; /* Set your desired color here */
+
+}
+
+
+.panel
+{
+  background-color :#EB984E;
+
+}
+
+.panel-body{
+  background-color:#FFC857;
+}
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #FFC857;
+  color: white;
+  text-decoration: none;
+  border: 1px solid #FFC857;
+  border-radius: 5px;
+  margin-right: 10px;
+}
   

@@ -53,6 +53,7 @@ function init() {
  buildBubbleChart(sample_one);
  buildPieChart(sample_one);
  buildClassBarChart(sample_one);
+ buildMassPieChart(sample_one);
   });
           
 };
@@ -65,7 +66,7 @@ function buildPieChart(sample){
 
     var labels = data.map(data => data.fall);
     var data = data.map(data => data.count);
-    var colors = ['blue', 'green'];
+    var colors = ["#FFA500", "#CA6F1E"];
 
     var ctx = document.getElementById("PieChart").getContext("2d");
 
@@ -74,28 +75,43 @@ function buildPieChart(sample){
     window.Pie.destroy(); // Destroy the existing chart if it exists
   }
 
-
-    window.Pie = new Chart(ctx, {
-        type: "pie",
-        data: {
-            labels: labels,
-            datasets: [{
-                data: data,
-                backgroundColor: colors,
-                responsive: true,
-                maintainAspectRatio: false, 
-                aspectRatio: 0.5 
-            }]
-        },
-        options: {
-            title: {
-                display: true,
-                text: "Meteorite Fall vs Found"
-            }
+  window.Pie = new Chart(ctx, {
+    type: "pie",
+    data: {
+        labels: labels,
+        datasets: [{
+            data: data,
+            backgroundColor: colors,
+            responsive: true,
+            maintainAspectRatio: true, 
+            aspectRatio: 3
+        }]
+    },
+    options: {
+      plugins: {
+          title: {
+              display: true,
+              text: "Fall Type",
+              fontSize: 40, // Set the font size
+              fontColor: 'black', // Set the font color
+              fontStyle: 'bold' // Set the font style (e.g., bold, italic)
+          }
+      },
+      legend: {
+        display: true,
+        position: "top", // You can set the position to 'top', 'bottom', 'left', or 'right'
+        labels: {
+            fontColor: 'black', // Set the font color for the legend labels
+            fontSize: 20 // Set the font size for the legend labels
         }
-    });
-
+      }
+    }
   });
+   
+  
+});
+    
+  
 
 };
 //Bar chart using chart.js
@@ -118,30 +134,69 @@ function buildClassBarChart(sample){
    if (window.Bar) {
     window.Bar.destroy(); // Destroy the existing chart if it exists
   };
-   window.Bar = new Chart(ctx, {
+  window.Bar = new Chart(ctx, {
     type: "bar",
     data: {
       labels: labels,
       datasets: [{
           label: "Count",
           data: counts,
-          backgroundColor: "rgba(54, 162, 235, 0.2)",
-          borderColor: "rgba(54, 162, 235, 1)",
-          borderWidth: 1
+          // backgroundColor: "rgba(54, 162, 235, 0.2)",
+          // borderColor: "rgba(54, 162, 235, 1)",
+                backgroundColor: "#EB984E", 
+                borderColor: "#F39C12",
+                borderWidth: 3
+          
       }]
     },
+
     options: {
-      title: {
-        display: true,
-        text: "Distribution of Meteorite by class"
+      legend: {
+          display: true
+      },
+      plugins: {
+        title: {
+            display: true,
+            text: "Distribution of Meteorites by Class"
+        }
     },
+      indexAxis: "x",
       scales: {
+          x: {
+              display: true,
+              title: {
+                  display: true,
+                  text: "CLASS",
+                  fontSize: 40, // Set the font size
+                  fontColor: 'black', // Set the font color
+                  fontStyle: 'bold' // Set the font style (e.g., bold, italic)
+              }
+          },
           y: {
-              beginAtZero: true
+              display: true,
+              title: {
+                  display: true,
+                  text: 'COUNT  ',
+                  fontSize: 40, // Set the font size
+                  fontColor: 'black', // Set the font color
+                  fontStyle: 'bold' // Set the font style (e.g., bold, italic)
+              },
+              ticks: {
+                beginAtZero: true,
+                stepSize: 1 // Set the step size to 1 for y-axis increments
+            }
           }
+      },
+      title: {
+          display: true,
+          text: "Distribution of Meteorites Types",
+          fontSize: 40, // Set the font size
+          fontColor: 'black', // Set the font color
+          fontStyle: 'bold' // Set the font style (e.g., bold, italic)
       }
   }
-      
+    
+        
   });
 });
 
@@ -285,28 +340,28 @@ for(i =0;i<value.length;i++){
           mode: "markers",
             marker: {                
                 color: xticks,
-                // colorscale: "YlOrRd",    
-                colors: [
-                  'rgb(255, 255, 204)',
-                   'rgb(128, 0, 38)',
-                   'rgb(189, 0, 38)',
-                   'rgb(227, 26, 28)',
-                   'rgb(252, 78, 42)',
-                   'rgb(253, 141, 60)',
-                   'rgb(254, 178, 76)',
-                   'rgb(254, 217, 118)',
-                  'rgb(255, 237, 160)',
-                  'rgb(255, 247, 180)',
-                  'rgb(255, 250, 190)'],               
+                colorscale:"Electric",    
+                // colors: [
+                //   'rgb(255, 255, 204)',
+                //    'rgb(128, 0, 38)',
+                //    'rgb(189, 0, 38)',
+                //    'rgb(227, 26, 28)',
+                //    'rgb(252, 78, 42)',
+                //    'rgb(253, 141, 60)',
+                //    'rgb(254, 178, 76)',
+                //    'rgb(254, 217, 118)',
+                //   'rgb(255, 237, 160)',
+                //   'rgb(255, 247, 180)',
+                //   'rgb(255, 250, 190)'],               
                 showscale: true // Show color scale
             }
       };
 
       // Setup the layout
       let layout = {
-          title: "Top 10 Largest Metorite",
-          xaxis: {title: "Mass(g)"},
-          yaxis: {title: "Meteroites"}
+        title: "Top 10 Largest Metorites",
+        xaxis: {title: "Mass(g)"},
+        yaxis: {title: "Meteroites",automargin: true}
       };
 
       // Call Plotly to plot the bar chart
@@ -314,73 +369,119 @@ for(i =0;i<value.length;i++){
   });
 };
 
-function buildPieChart(sample) {
-    let sampleInfo = [];
-    // Use D3 to retrieve all of the data
-    d3.json(url).then((data) => {
-        for (let i = 0; i < data.length; i++) {
-            let metadata = {
-                "name": data[i].name,
-                "year": data[i].year,
-                "mass": data[i].mass,
-                "class": data[i].recclass,
-                "fall": data[i].fall,
-                "id": data[i].id
-            };
-            sampleInfo.push(metadata);
-        }
-        // Filter based on the value of the sample
-        let value = sampleInfo.filter(result => result.year == sample);
-        if (value.length === 0) {
-            console.error(`No data found for class: ${sample}`);
-            return;
-        }
+// function buildPieChart(sample) {
+//     let sampleInfo = [];
+//     // Use D3 to retrieve all of the data
+//     d3.json(url).then((data) => {
+//         for (let i = 0; i < data.length; i++) {
+//             let metadata = {
+//                 "name": data[i].name,
+//                 "year": data[i].year,
+//                 "mass": data[i].mass,
+//                 "class": data[i].recclass,
+//                 "fall": data[i].fall,
+//                 "id": data[i].id
+//             };
+//             sampleInfo.push(metadata);
+//         }
+//         // Filter based on the value of the sample
+//         let value = sampleInfo.filter(result => result.year == sample);
+//         if (value.length === 0) {
+//             console.error(`No data found for class: ${sample}`);
+//             return;
+//         }
 
-        // Get the first index from the array
-        let valueData = value[0];
-        let met_names =[];
-        let met_years =[];
-        let mass_values =[];
-        let fall_values = [];
-        let ids =[];
-        for(i =0;i<value.length;i++){
-            // Get the names, years, and mass
-            met_names.push(value[i].name);
-            met_years.push(value[i].year);
-            mass_values.push(value[i].mass);
-            fall_values.push(value[i].fall);
-            ids.push(value[i].id);
-        }
+//         // Get the first index from the array
+//         let valueData = value[0];
+//         let met_names =[];
+//         let met_years =[];
+//         let mass_values =[];
+//         let fall_values = [];
+//         let ids =[];
+//         for(i =0;i<value.length;i++){
+//             // Get the names, years, and mass
+//             met_names.push(value[i].name);
+//             met_years.push(value[i].year);
+//             mass_values.push(value[i].mass);
+//             fall_values.push(value[i].fall);
+//             ids.push(value[i].id);
+//         }
 
-        // Set top ten items to display in descending order
-        // Create labels for the pie chart
-        let labels = met_names.slice(0, 10);
-        // Get corresponding values for the pie chart
-        let values = mass_values.slice(0, 10);
-        // Create a trace for the pie chart
-        let trace = {
-            labels: labels,
-            values: values,
-            type: 'pie',
-            hole: 0.5, // Set the size of the hole for the donut chart
-            textinfo: 'percent',
-            mode: "markers",
+//         // Set top ten items to display in descending order
+//         // Create labels for the pie chart
+//         let labels = met_names.slice(0, 10);
+//         // Get corresponding values for the pie chart
+//         let values = mass_values.slice(0, 10);
+//         // Create a trace for the pie chart
+//         let trace = {
+//             labels: labels,
+//             values: values,
+//             type: 'pie',
+//             hole: 0.5, // Set the size of the hole for the donut chart
+//             textinfo: 'percent',
+//             mode: "markers",
+//             marker: {
+//                 //color: values,
+//                 colors: ['rgb(255, 250, 190)','rgb(255, 247, 180)','rgb(255, 237, 160)', 'rgb(254, 217, 118)', 'rgb(254, 178, 76)', 'rgb(253, 141, 60)', 'rgb(252, 78, 42)', 'rgb(227, 26, 28)', 'rgb(189, 0, 38)', 'rgb(128, 0, 38)','rgb(255, 255, 204)'], // Set custom colors for the slices
+//                 // showscale: true // Show color scale
+//             }
+
+//         };
+//         // Set up the layout for the pie chart
+//         let layout = {
+//             title: "Top 10 Mass Distribution",
+//             width: 800, // Set the width of the chart
+//             height: 600, // Set the height of the chart
+//         };
+//         // Plot the pie chart
+//         Plotly.newPlot("pie", [trace], layout);
+//     });
+// }
+
+function buildMassPieChart(sample){
+
+  let url_mass = "/meteorites_bymass/"+sample;
+  console.log(url_mass);
+  let sampleInfo = [];
+  d3.json(url_mass).then((data) => {
+    // Extract recclass and count data
+   // Categorize meteorite masses into different ranges
+   const smallMasses = data.filter(entry => entry.mass <= 10000);
+   const mediumMasses = data.filter(entry => entry.mass > 10000 && entry.mass <= 100000);
+   const largeMasses = data.filter(entry => entry.mass > 100000);
+
+   // Calculate the percentage of meteorites in each mass range
+   const totalMeteorites = data.length;
+   const smallMassPercentage = (smallMasses.length / totalMeteorites) * 100;
+   const mediumMassPercentage = (mediumMasses.length / totalMeteorites) * 100;
+   const largeMassPercentage = (largeMasses.length / totalMeteorites) * 100;
+
+  
+   const labels = ["<= 10kg(small)", "10-100kg(medium)", "> 100kg(large)"];
+   const values = [smallMassPercentage, mediumMassPercentage, largeMassPercentage];
+
+   const data5 = [{
+       values: values,
+       labels: labels,
+       type: 'pie',
+       mode: "markers",
             marker: {
                 //color: values,
-                colors: ['rgb(255, 250, 190)','rgb(255, 247, 180)','rgb(255, 237, 160)', 'rgb(254, 217, 118)', 'rgb(254, 178, 76)', 'rgb(253, 141, 60)', 'rgb(252, 78, 42)', 'rgb(227, 26, 28)', 'rgb(189, 0, 38)', 'rgb(128, 0, 38)','rgb(255, 255, 204)'], // Set custom colors for the slices
-                // showscale: true // Show color scale
+                colors: ["#EB984E","#CA6F1E","#BA4A00" ]
             }
+   }];
 
-        };
-        // Set up the layout for the pie chart
-        let layout = {
-            title: "Top 10 Mass Distribution",
-            width: 800, // Set the width of the chart
-            height: 600, // Set the height of the chart
-        };
-        // Plot the pie chart
-        Plotly.newPlot("pie", [trace], layout);
-    });
+   let layout5 = {
+    title: "Meteroite Mass Distribution"
+    
+};
+
+   Plotly.newPlot('pie_chart', data5,layout5);
+
+});
+
+
+
 }
 
 // // Function that builds the bubble chart
@@ -434,21 +535,23 @@ for(i =0;i<10;i++){
             text: met_names,
             mode: "markers",
             marker: {
-                size:mass_values.map(mass => Math.sqrt(mass)/2),
+                size:mass_values.map(mass => Math.sqrt(mass)/10),
                 color: mass_values,
-                // colorscale: "YlOrRd",      
-                colors: [
-                  'rgb(255, 255, 204)',
-                   'rgb(128, 0, 38)',
-                   'rgb(189, 0, 38)',
-                   'rgb(227, 26, 28)',
-                   'rgb(252, 78, 42)',
-                   'rgb(253, 141, 60)',
-                   'rgb(254, 178, 76)',
-                   'rgb(254, 217, 118)',
-                  'rgb(255, 237, 160)',
-                  'rgb(255, 247, 180)',
-                  'rgb(255, 250, 190)'],           
+                colorscale:"Earth",  
+                
+
+                // colors: [
+                //   'rgb(255, 255, 204)',
+                //    'rgb(128, 0, 38)',
+                //    'rgb(189, 0, 38)',
+                //    'rgb(227, 26, 28)',
+                //    'rgb(252, 78, 42)',
+                //    'rgb(253, 141, 60)',
+                //    'rgb(254, 178, 76)',
+                //    'rgb(254, 217, 118)',
+                //   'rgb(255, 237, 160)',
+                //   'rgb(255, 247, 180)',
+                //   'rgb(255, 250, 190)'],           
                 showscale: true // Show color scale
             }
         };
@@ -459,8 +562,8 @@ for(i =0;i<10;i++){
             hovermode: "closest",
             xaxis: {title: "Meteroites"},
             yaxis: {title: "Mass(g)"},
-            height: 1000,
-            width: 1500
+            // height: 1000,
+            // width: 1500
         };
 
         // Call Plotly to plot the bubble chart
@@ -483,6 +586,7 @@ function optionChanged(value) {
   buildBubbleChart(value);
   buildPieChart(value);
   buildClassBarChart(value);
+  buildMassPieChart(value);
 
     
 } ;
