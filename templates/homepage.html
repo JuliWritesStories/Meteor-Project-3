@@ -26,30 +26,60 @@
             text-decoration: none;
             color: black;
         }
+        .st-emotion-cache-10trblm {
+    position: relative;
+    flex: 1 1 0%;
+    margin-left: calc(3rem);
+    font-size: 56px;
+}
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: Source Sans Pro,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+    margin: 0;
+    overflow: auto;
+    overflow: overlay;
+    overscroll-behavior: none;
+    background-color:#96c8f580;
+}
     </style>
-     <link rel="stylesheet" type="text/css" href="../static/css/style.css">
 </head>
 <body>
-    <header>
-        <div class="col-md-12 jumbotron text-center">
-        <h1>Welcome to Meteorite Landing Page!!</h1>
+   
+    <div class ="row" >
+        <div style ="width:100%" class="col-md-12">
+            <img  src="../static/Images/meteror.jpg" alt="meteror" style ="width:100%">
         </div>
-        <div>
+    </div>
+    <div class ="row" >
+        <div style ="width:100%" class="col-md-12">
+           <span class ="st-emotion-cache-10trblm">Welcome to Meteo Dash!</span>
+        </div>
+    </div>
+    <div class ="row">
+
         <nav>
             <ul>
-                <li><a href="{{ url_for("charts") }}" class="button">Charts</a></li>
-                <li><a href="{{ url_for("maps") }}" class="button">Maps</a></li>
-                <li><a href="{{ url_for("heatmaps") }}" class="button">HeatMaps</a></li>
+                <li><a href="{{ url_for("charts") }}">
+                    <img  src="../static/Images/ststs.png" alt="meteror" style ="width:10% ;height: 10%;">
+                </a></li>
+                <li><a href="{{ url_for("maps") }}">
+                    <img  src="../static/Images/worldmap.png" alt="meteror" style ="width:10% ;height: 10%;">
+                </a></li>
+                <li><a href="{{ url_for("heatmaps") }}">HeatMaps</a></li>
 
                 <!-- <li><a href="#contact">Contact</a></li> -->
             </ul>
         </nav>
     </div>
-    </header>
+
 
     <section id="about">
         <h2>Meteorite</h2>
         <p>brief description .</p>
+        <div class="gallery">
+            
+        </div>
     </section>
 
    
