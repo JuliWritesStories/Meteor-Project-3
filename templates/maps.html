@@ -17,14 +17,24 @@
 
   <!-- Our CSS -->
   <link rel="stylesheet" type="text/css" href="../static/CSS/style.css">
-  <a href="/">Home</a>
+  <a href="/" style ="font-size: xx-large;">Home</a>
+  <div clas="row">
+    <div class="col-md-2">
+      <div class="well">
+        <h5 style ="font-size: xx-large;">Meteroite:</h5>
+        <select  id="selDataset" onchange="optionChanged(this.value)" class="map_drop"></select>
+      </div>
+    </div>
+    </div>
 </head>
 
 <body>
-  
+ 
   <!-- The div that holds our map -->
-  <div id="map"></div>
-  
+ 
+    <div id="map"></div>
+
+
   <!-- <a href="/">Meteroite</a>
   
 

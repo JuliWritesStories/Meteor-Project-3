@@ -1,148 +1,172 @@
 // JSON data URL
-let queryUrl = "/meteorites";
-console.log(queryUrl);
+let url = "/meteorites";
 
-// Perform a GET request to the query URL
-d3.json(queryUrl).then(function (data) {
-    // Console log the data retrieved 
-    console.log(data);
-    // Once we get a response, send the data to the createFeatures function
-    let features = [];
+function init() {
+    // Use D3 to select the dropdown menu
+    let dropdownMenu = d3.select("#selDataset");
+  
 
-    for (i = 0; i < data.length; i++) {
-        let feature = {
-            "type": "Feature",
-            "name": data[i].name,
-            "properties": {
-                "mass": data[i].mass
-            },
+// Your array of values
+let valuesArray = ["90000","100000", "500000", "100000","200000","400000"];
 
-            "geometry": {
-                "type": "Point",
-                "coordinates": [data[i].latitude, data[i].longitude]
-            }
-        }
-        features.push(feature);
-    }
-    console.log(features);
-    createFeatures(features);
+
+// Append options to the dropdown for each value in the array
+valuesArray.forEach(function(value) {
+    dropdownMenu.append("option")
+        .text(value)
+        .attr("value", value);
 });
+     let defaultYear = valuesArray[0];
+        dropdownMenu.property("value", defaultYear);
 
-function createFeatures(meteoriteData) {
-    // Define the getColor function to assign color based on mass
-    function getColor(mass) {
-        if (mass < 10000) {
-            return '#00FF00';
-        } else if (mass < 50000) {
-            return '#FFFF00';
-        } else if (mass < 100000) {
-            return '#41b6c4';
-        } else if (mass < 207000) {
-            return '#FF0000';
-        } else if (mass < 409000) {
-            return '#081d58';
-        } else {
-            return '#FF0000';
-        }
-    }
-
-    // Define a function to create popups for each feature
-    function onEachFeature(feature, layer) {
-        // Access properties using dot notation
-        var name = feature.name;
-        var mass = feature.properties.mass;
-         var geoLocation = feature.geometry.coordinates;
+        // Build the initial map
+        buildMap(defaultYear);
+    // // Fetch the JSON data
+    // d3.json(url).then(function(data) {
+    //     let types = [];
+    //     let years = [];
+    //     let masses = [];
         
-        // Log properties to console for debugging
-        console.log('Name:', name);
-        console.log( mass );
-        console.log('GeoLocation:', geoLocation);
+    //     for (let i = 0; i < data.length; i++) {
+    //         let type = data[i].recclass;
+    //         let year = data[i].year;
+    //         let mass = data[i].mass;
+    //         types.push(type);
+    //         years.push(year);
+    //         masses.push(mass);
+    //     };
 
-        // Bind popup to the layer
-        layer.bindPopup(`<h3>Mass:${mass}</h3><hr><p>Name: ${name}</p><p>GeoLocation: ${geoLocation}</p>`);
+    //     let uniqueYears = Array.from(new Set(masses)).sort((a, b) => b - a);
+
+    //     // Add options to dropdown menu
+    //     uniqueYears.forEach((year) => {
+    //         dropdownMenu.append("option")
+    //             .text(year)
+    //             .property("value", year);
+    //     });
+    //   console.log('uniqueYears',uniqueYears);
+    //     // Set the default value
+    //     let defaultYear = uniqueYears[0];
+    //     dropdownMenu.property("value", defaultYear);
+
+    //     // Build the initial map
+    //     buildMap(defaultYear);
+    // });
+}
+
+function buildMap(year) {
+    
+    // let queryUrl = "/meteorites/"+year;
+    let queryUrl = `/meteorites_byMass1/${year}`;
+console.log('queryUrl',queryUrl);
+    // Perform a GET request to the query URL
+    d3.json(queryUrl).then(function(data) {
+        let features = [];
+        console.log('data',data);
+        for (let i = 0; i < data.length; i++) {
+            let feature = {
+                "type": "Feature",
+                "name": data[i].name,
+                "properties": {
+                    "mass": data[i].mass
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [data[i].latitude, data[i].longitude]
+                }
+            };
+            features.push(feature);
+        }
+        console.log('features',features);
+        createMap(features);
+    });
+}
+
+let myMap;
+
+function createMap(meteoriteData) {
+    // Check if the map already exists, if so, remove it
+    if (myMap) {
+        myMap.remove();
     }
+
+    // Create the base layer
+    let street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
 
     // Create a GeoJSON layer
-    var meteroides = L.geoJSON(meteoriteData, {
+    let meteoritesLayer = L.geoJSON(meteoriteData, {
         pointToLayer: function(feature, latlng) {
-            // Create circle marker with radius based on mass and color based on mass category
-            var mass = feature.properties.mass;
-            var location = feature.geometry.coordinates;
+            let mass = feature.properties.mass;
             return L.circleMarker(latlng, {
-                radius: Math.sqrt(mass) / 100,
-                fillColor: getColor(mass),
+                radius: Math.sqrt(mass) / 50,
                 color: "#000",
+                fillColor: getColor(mass),
                 weight: 1,
                 opacity: 1,
                 fillOpacity: 0.8
             });
         },
-        onEachFeature: onEachFeature
+        onEachFeature: function(feature, layer) {
+            let name = feature.name;
+            let mass = feature.properties.mass;
+            let geoLocation = feature.geometry.coordinates;
+
+            layer.bindPopup(`<h3 style="font-size: 28px;">Mass: ${mass}</h3><hr><p style="font-size: 26px;">Name: ${name}</p><p style="font-size: 26px;">GeoLocation: ${geoLocation}</p>`);
+        }
     });
 
-    // Send the meteroides layer to the createMap function
-    createMap(meteroides,location);
-}
-
-function createMap(meteroides,heatArray) {
-    // Create the base layer
-    var street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    });
-
-    // Create a baseMaps object
-    var baseMaps = {
-        "Street Map": street
-    };
-
-    let heat = L.heatLayer(heatArray, {
-        radius: 20,
-        blur: 35
-      });
-
-    // Create an overlay object to hold our overlay
-    var overlayMaps = {
-        "meteroites": meteroides,
-        "heatlayer" :heat
-    };
-
-    
-
-    // Create our map, giving it the streetmap and meteroides layers to display on load
-    var myMap = L.map("map", {
-        center: [37.09, -95.71],
-        zoom: 5,
-        layers: [street, meteroides,heat]
-    });
-    //let heat = L.heatLayer(heatArray, {
-    //     radius: 20,
-    //     blur: 35
-    //   }).addTo(myMap); 
-    // Create a layer control
-    // Pass it our baseMaps and overlayMaps
-    // Add the layer control to the map
-    L.control.layers(baseMaps, overlayMaps, {
-        collapsed: false
-    }).addTo(myMap);
-
-    // Create a legend control
-    var legend = L.control({ position: 'bottomright' });
-
+    // Create a legend
+    let legend = L.control({ position: 'bottomright' });
     legend.onAdd = function(map) {
-        var div = L.DomUtil.create('div', 'info legend');
-       
-        var depthColors = ['#00FF00', '#FFFF00', '#FFA500',  '#41b6c4', '#081d58','#FF0000'];
-        var depthLabels = ['0 - 10k', '10k - 50k', '50k - 100k', '100k - 207k', '207k - 409k', '> 409k'];
-
-        for (var i = 0; i < depthColors.length; i++) {
-            div.innerHTML +=
-                '<i style="background:' + depthColors[i] + '; width: 20px; height: 20px; display: inline-block;"></i> ' +
-                depthLabels[i] + '<br>';
+        let div = L.DomUtil.create('div', 'info legend');
+        let depthColors = ['#00FF00', '#FFFF00', '#FFA500', '#41b6c4', '#081d58', '#FF0000'];
+        let depthLabels = ['0 - 10k', '10k - 50k', '50k - 100k', '100k - 200k', '200k - 400k', '> 400k'];
+        div.style.fontSize = '26px';
+        for (let i = 0; i < depthColors.length; i++) {
+            div.innerHTML += '<i style="background:' + depthColors[i] + '; width: 40px; height: 40px; display: inline-block;"></i> ' + depthLabels[i] + '<br>';
         }
         return div;
     };
 
+    // Create our map
+    myMap = L.map("map", {
+        center: [37.09, -95.71],
+        zoom: 5,
+        layers: [street, meteoritesLayer]
+    });
+
+    // Add layers control
+    let baseMaps = { "Street Map": street };
+    let overlayMaps = { "Meteorites": meteoritesLayer };
+    L.control.layers(baseMaps, overlayMaps).addTo(myMap);
+
     // Add legend to the map
     legend.addTo(myMap);
-   
 }
+
+// Function called when a dropdown menu item is selected
+function optionChanged(value) {
+    buildMap(value);
+}
+
+// Function to get color based on mass
+function getColor(mass) {
+    if (mass < 10000) {
+        return '#00FF00';
+    } else if (mass < 50000) {
+        return '#FFFF00';
+    } else if (mass < 100000) {
+        return '#41b6c4';
+    } else if (mass < 207000) {
+        return '#FFA500';
+    } else if (mass < 409000) {
+        return '#081d58';
+    } else {
+        return '#FF0000';
+    }
+}
+
+// Initialize the application
+init();

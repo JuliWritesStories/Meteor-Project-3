@@ -221,7 +221,39 @@ def meteorites_byMass(byyear):
      })
     return jsonify(result_dict)
     
+@app.route("/meteorites_byMass1/<bymass>")
+def meteorites_byMass1(bymass):
+     # # Create our session (link) from Python to the DB
+    session = Session(engine)
 
+   
+    
+
+    results =  session.query(Meteorite.recclass,Meteorite.year,Meteorite.latitude,Meteorite.longitude,Meteorite.meteorite_name,getattr(Meteorite, "mass(g)")) \
+                .filter(getattr(Meteorite, "mass(g)") > bymass) \
+                .all()
+
+
+    session.close()
+
+
+
+    result_dict= []
+
+
+    for result in results:
+      result_dict.append({
+           "class": result[0],
+           "year": result[1],
+            "latitude": result[2],
+           "longitude": result[3],
+             "name": result[4],
+           "mass": result[5],
+          
+          
+     })
+    return jsonify(result_dict)
+    
 
  
 
