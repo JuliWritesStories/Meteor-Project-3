@@ -17,19 +17,23 @@
 
   <!-- Our CSS -->
   <link rel="stylesheet" type="text/css" href="../static/CSS/style.css">
-  <a href="/" style ="font-size: xx-large;">Home</a>
+  
+</head>
+
+<body>
+ <header>
+  <div id ="headerContent">
+  <a href="/" style ="font-size: 40px; color: white;">Home</a>
   <div clas="row">
     <div class="col-md-2">
-      <div class="well">
-        <h5 style ="font-size: xx-large;">Meteroite:</h5>
+      <div>
+        <h5 style ="font-size:40px;color: white;">Meteroite:</h5>
         <select  id="selDataset" onchange="optionChanged(this.value)" class="map_drop"></select>
       </div>
     </div>
     </div>
-</head>
-
-<body>
- 
+  </div>
+ </header>
   <!-- The div that holds our map -->
  
     <div id="map"></div>
@@ -48,6 +52,19 @@
    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
   <!-- Our JavaScript -->
   <script type="text/javascript" src="../static/js/maps.js"></script>
+
+  <script>
+    // Get the header content from local storage
+    var headerContent = localStorage.getItem('headerContent');
+    if (headerContent) {
+      document.querySelector('header headerContent').textContent = headerContent;
+    }
+  
+    // Save the header content to local storage when it changes
+    document.querySelector('header headerContent').addEventListener('input', function() {
+      localStorage.setItem('headerContent', this.textContent);
+    });
+  </script>
 </body>
 
 </html>
