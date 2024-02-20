@@ -12,18 +12,18 @@
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <!-- Our CSS -->
     <link rel="stylesheet" type="text/css" href="../static/CSS/style.css">
-    <a href="/">Home</a>
+    <a href="/" class="btn btn-custom">&#127968 Home</a>
 </head>
 
 <body>
   
-  <div class="container">
+  <!-- <div class="container"> -->
     <div class="row">
       <div class="col-md-12 jumbotron text-center">
-        <h1>Welcome to Meteo Dash! </h1>
+        <!-- <h1>Welcome to Meteo Dash! </h1> -->
         <p>Meteorite Impact: A Comprehensive Review of Observed and Recovered Falls</p>
       </div>
-    </div>
+    <!-- </div> -->
     <!-- <div class="row">
       <div class="col-md-12 jumbotron text-center">
         <a href="/charts">Charts</a>
@@ -33,7 +33,7 @@
     <div class="row">
       <div class="col-md-2">
         <div class="well">
-          <h5>Meteroite:</h5>
+          <h5 class="ddp">Meteroite:</h5>
           <select id="selDataset" onchange="optionChanged(this.value)"></select>
         </div>
         <div class="panel panel">
@@ -58,14 +58,14 @@
         
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-3" id="chartContainer">
         
         <canvas id="PieChart" ></canvas> 
         
       </div>
       <div class="col-md-7">
         
-        <canvas id="BarChart" ></canvas> 
+        <canvas id="BarChart"  id="chartContainer"></canvas> 
         
       </div>
     </div>
