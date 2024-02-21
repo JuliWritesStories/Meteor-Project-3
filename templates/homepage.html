@@ -36,9 +36,14 @@
         <h1>Welcome to Meteorite Landing Page!!</h1>
        </div>
        <nav>
-        <ul class="list-inline text-right"> <!-- Align the list to the right -->
-            <li><a href="{{ url_for("charts") }}" class="btn btn-custom">&#128202 Charts</a></li>
-            <li><a href="{{ url_for("maps") }}" class="btn btn-custom">&#127758 Maps</a></li>
+        <ul>
+            <li><a href="{{ url_for("charts") }}">
+                <img  src="../static/Images/stats.png" alt="meteror" style ="width:10% ;height: 10%;">
+            </a></li>
+            <li><a href="{{ url_for("maps") }}">
+                <img  src="../static/Images/worldmap.png" alt="meteror" style ="width:10% ;height: 10%;">
+            </a></li>
+           
         </ul>
     </nav>
        <div>

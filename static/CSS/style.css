@@ -1,10 +1,25 @@
-body {
+ /* body {
     padding: 0;
     margin: 0;
     background-color: #406D96;
   }
-  
-  #map,
+   */
+  header {
+    background-color: rgb(47, 58, 86);
+     padding: 10px 20px; 
+     position: fixed;
+     width: 100%;
+     top: 0;
+     z-index: 1000; /* Ensures it's above other content */
+   }
+     #map{
+     padding-top: 20px;
+     width: 100%;
+     height: 100%;
+     overflow: hidden;
+     margin: 0;
+     
+   }
   body,
   html {
     height: 100%;
@@ -52,10 +67,7 @@ body {
 
   color:black;
 }
-.map_drop{  
-  font-size: xx-large;
 
-}
 .panelhome {
   /* float: right;
   height: 100vh; /* Set the height of the panel to match the page height */

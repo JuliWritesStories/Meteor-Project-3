@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,25 +15,27 @@
 
   <!-- Our CSS -->
   <link rel="stylesheet" type="text/css" href="../static/CSS/style.css">
-  <a href="/" class="btn btn-custom">&#127968 Home</a>
-  
+  <!-- <a href="/">Home</a> -->
 </head>
 
 <body>
-  <div clas="row">
-    <div class="col-md-2">
-      <div class="well">
-        <h5 style ="font-size: xx-large;">Meteroite:</h5>
-        <select  id="selDataset" onchange="optionChanged(this.value)" class="map_drop"></select>
+  <header>
+    <div id ="headerContent">
+    <a href="/" style ="font-size: 20px; color: white;">Home</a>
+    <div class="row">
+      <div class="col-md-2">
+       
+          <h5 style ="font-size:20px;color: white;">Meteroite:</h5>
+        </div>
+        <div class="col-md-2">
+          <select  id="selDataset" onchange="optionChanged(this.value)" ></select>       
+      </div>
       </div>
     </div>
-    </div>
- 
+   </header>
   <!-- The div that holds our map -->
- 
-    <div id="map"></div>
-
-
+  <div id="map"></div>
+  
   <!-- <a href="/">Meteroite</a>
   
 

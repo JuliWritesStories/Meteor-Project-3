@@ -100,7 +100,7 @@ function createMap(meteoriteData) {
         pointToLayer: function(feature, latlng) {
             let mass = feature.properties.mass;
             return L.circleMarker(latlng, {
-                radius: Math.sqrt(mass) / 50,
+                radius: Math.sqrt(mass) /60,
                 color: "#000",
                 fillColor: getColor(mass),
                 weight: 1,
