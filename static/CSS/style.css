@@ -2,7 +2,44 @@
     padding: 0;
     margin: 0;
     background-color: #406D96;
+    font-family:  "sans-serif"; /* Use your preferred font-family */
+    font-size: 16px;
   }
+ 
+nav {
+  float: right;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+nav a {
+  text-decoration: none;
+  padding: 10px;
+  color: #fff;
+  background-color: #406D96;
+  border-radius: 5px;
+}
+
+header {
+  background-color:#406D96;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+}
+
+.jumbotron {
+  margin: 20px 0;
+  padding: 20px;
+}
   
   #headerContent {
     background-color: rgb(47, 58, 86);
@@ -24,6 +61,30 @@
   html {
     height: 100%;
   }
+
+  .card {
+    flex:1;
+    border: 3px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #406D96;
+    color:whitesmoke;
+    height: 450px;
+}
+ .card-header {
+  flex:1;
+  border: 0 px solid #ccc;
+  font-size: 3rem;
+  background-color: #2F3A56; 
+  color:whitesmoke;
+  margin-bottom: 0 px;
+  margin-bottom: 0 0px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
   .img {
     float: right;

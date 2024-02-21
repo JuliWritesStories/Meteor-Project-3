@@ -94,7 +94,9 @@ function buildPieChart(sample){
                   text: 'Fall Type',
                   color:"rgba(245, 245, 245, 1)",
                   font: {
-                    size:20
+                    size:20,
+                    family:"sans-serif",
+                    weight:"normal"
                   }
                   
               },
@@ -108,7 +110,8 @@ function buildPieChart(sample){
                  font: {
                   size: 15,
                   color: "smokeywhite",
-                  weight: "bold"
+                  // weight: "bold",
+                  family:"sans-serif"
                   }
                 }
               }
@@ -157,14 +160,17 @@ function buildClassBarChart(sample){
       datasets: [{
           label: "Count",
           data: counts,
-          // backgroundColor: "rgba(54, 162, 235, 0.2)",
-          // borderColor: "rgba(54, 162, 235, 1)",
-                backgroundColor: "#7F2B0A", 
-                borderColor: "#F39C12",
-                borderWidth: 3
+         
+          backgroundColor: "#CD7F32", 
+          borderColor: "#7F2B0A",
+          borderWidth: 3
           
       }]
     },
+     // backgroundColor: "rgba(54, 162, 235, 0.2)",
+          // borderColor: "rgba(54, 162, 235, 1)",
+                // backgroundColor: "#7F2B0A", 
+                // borderColor: "#F39C12",
 
     options: {
        
@@ -176,7 +182,9 @@ function buildClassBarChart(sample){
             color:"rgba(245, 245, 245, 1)",
             text: "Distribution of Meteorites by Class",
             font:{
-              size:20
+              size:20,
+              family:"sans-serif",
+              weight:"normal"
             }
         },
 
@@ -187,7 +195,8 @@ function buildClassBarChart(sample){
 
           },
           font:{
-            size:20
+            size:20,
+            family:"sans-serif"
           }
           
         }
@@ -202,9 +211,17 @@ function buildClassBarChart(sample){
                   text: "CLASS",
                  
               },
+              min:0,
+              max:15,
               ticks:{
-                color:"white"
+                color:"white",
+                maxRotation: 45,
+                minRotation: 0,
+                autoSkip: false,
+                maxTicksLimit:15,
+                stepSize: 1
               }
+             
           },
           y: {
               display: true,
@@ -306,7 +323,7 @@ console.log(url_yr)
             // Log the individual key/value pairs as they are being appended to the metadata panel
             console.log(key,value);
 
-            d3.select("#sample-metadata").append("p").text(`${key}: ${value}`);
+            d3.select("#sample-metadata").append("h3").text(`${key}: ${value}`);
         });
     });
 
@@ -397,7 +414,9 @@ for(i =0;i<value.length;i++){
       let layout = {
         title: "Top 10 Largest Metorites",
         font: {
-          color: 'white'
+          color: "white",
+          family:  "sans-serif",
+          size: 15,
         },
         xaxis: {title: "Mass(g)", font: {
           color: 'white'
@@ -519,7 +538,10 @@ function buildMassPieChart(sample){
    let layout5 = {
     title: "Meteroite Mass Distribution",
     font: {
-      color: 'white'
+      
+      color: "white",
+      family:  "sans-serif",
+      size: 15,
     },
     plot_bgcolor:" #406D96",  // Change the background color of the plot area
     paper_bgcolor: "#406D96"
@@ -587,7 +609,7 @@ for(i =0;i<10;i++){
             marker: {
                 size:mass_values.map(mass => Math.sqrt(mass)/10),
                 color: mass_values,
-                colorscale:"Turbo",  
+                colorscale:"YlOrBr",  
                 
 
                 // colors: [
@@ -608,12 +630,27 @@ for(i =0;i<10;i++){
 
         // Set up the layout
         let layout = {
+            annotations: [
+            {
+              x: 0,  // X-coordinate of the annotation
+              y: 0, // Y-coordinate of the annotation
+              xref: 'x',
+              yref: 'y',
+              text: 'Largest Meteorite', // Text of the annotation
+              showarrow: true,
+              arrowhead: 4,
+              ax: 0,
+              ay: -40,
+            },
+            ],
             title: "Meteroites & Mass",
             font: {
-              color: 'white'
+              color: "white",
+              family: "sans-serif",
+              size: 15
             },
             hovermode: "closest",
-            xaxis: {title: "Meteroites", font: {
+            xaxis: {title: "Meteroites",automargin: true,font: {
               color: 'white'
             }},
             yaxis: {title: "Mass(g)" , font: {

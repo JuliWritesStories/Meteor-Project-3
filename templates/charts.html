@@ -12,7 +12,14 @@
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <!-- Our CSS -->
     <link rel="stylesheet" type="text/css" href="../static/CSS/style.css">
-    <a href="/" class="btn btn-custom">&#127968 Home</a>
+    <nav>
+      <ul class="list-inline text-right"> <!-- Align the list to the right -->
+         <li> <a href="/" class="btn btn-custom">&#127968 Home</a></li>
+          <li><a href="{{ url_for("charts") }}" class="btn btn-custom">&#128202 Charts</a></li>
+          <li><a href="{{ url_for("maps") }}" class="btn btn-custom">&#127758 Maps</a></li>
+ 
+      </ul>
+  </nav>
 </head>
 
 <body>
@@ -20,7 +27,7 @@
   <!-- <div class="container"> -->
     <div class="row">
       <div class="col-md-12 jumbotron text-center">
-        <!-- <h1>Welcome to Meteo Dash! </h1> -->
+         <h3> Meteo Dash</h3>
         <p>Meteorite Impact: A Comprehensive Review of Observed and Recovered Falls</p>
       </div>
     <!-- </div> -->
@@ -50,13 +57,13 @@
           <div id="pie_chart"></div>
          
       </div>
-    </div> -->
+    </div>
     <div class="row">
       <div class="col-md-2">
         
         
         
-      </div>
+      </div> 
 
       <div class="col-md-3" id="chartContainer">
         
@@ -77,7 +84,7 @@
       </div> 
 
       </div>
-      <div class="col-md-7">
+      <div class="col-md-12">
         <div id="bubble"></div>
         
       </div>

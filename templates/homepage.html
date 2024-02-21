@@ -5,93 +5,118 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage</title>
-    <style>
-        header {
-            text-align: center;
-        }
-
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            text-align: center;
-        }
-
-        nav ul li {
-            display: inline;
-            margin-right: 20px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: black;
-        }
-    </style>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
      <link rel="stylesheet" type="text/css" href="../static/css/style.css">
-     
-</head>
-<body>
-    <header>
-       <div class="col-md-12 jumbotron text-center">
-        <h1>Welcome to Meteorite Landing Page!!</h1>
-       </div>
-       <nav>
-        <ul class="list-inline text-right"> <!-- Align the list to the right -->
+     <nav>
+        <ul class="list-inline"> <!-- Align the list to the right -->
+           <li> <a href="/" class="btn btn-custom">&#127968 Home</a></li>
             <li><a href="{{ url_for("charts") }}" class="btn btn-custom">&#128202 Charts</a></li>
             <li><a href="{{ url_for("maps") }}" class="btn btn-custom">&#127758 Maps</a></li>
+   
         </ul>
     </nav>
-       <div>
-       
-    </div>
-    </header>
+     
+</head>
+
   <body>
-    <div class="panelhome">
-        <div class="left-text">
-            <div class="col-md-3">
-            <h2 class="heading">Origin:</h2>
-            <p class="para">Meteorites are fragments of asteroids or other bodies in our solar system that have survived the journey through Earth's atmosphere and landed on the surface.</p>
-            <img src="static/Images/meteor1.jpg"  class="img" alt="Image 1">    
+    <div class="row">
+        <div class="col-md-12 jumbotron text-center">
+           <h1>Welcome to Meteorite Landing!!! </h1>
+         
         </div>
-             <div class="col-md-3">
-            <h2 class="heading">Composition:</h2>
-            <p class="para">Meteorites can be composed of various materials, including rock, metal, and even organic compounds. Some meteorites contain rare elements not typically found on Earth.</p>
-            <img src="static/Images/meteor2.jpg"  class="img" alt="Image 2">
-            </div>
-            <div>
-            <h2 class="heading">Impact craters:</h2>
-            <p class="para">When a meteorite strikes the Earth's surface, it can create impact craters of varying sizes, depending on the size and speed of the meteorite.</p>
-            <img src="static/Images/meteror.jpg"  class="img"alt="Image 3">
-           </div>
-           <div>
-            <h2 class="heading">Classification:</h2>
-            <p class="para"> Meteorites are classified into three main types: stony meteorites, iron meteorites, and stony-iron meteorites. Each type has distinct characteristics based on its composition.</p>
-            <img src="static/Images/meteorite.jpg"  class="img"alt="Image 4">
-            </div>
-            <div>
-
-            </div>
-            <h2 class="heading">Size arrange</h2>
-            <p class="para">Meteorites can vary in size from tiny grains to large masses weighing several tons. The largest meteorites found on Earth are known as "iron meteorites."</p>
-            <img src="static/Images/meteorite-assortment.jpg"  class="img"alt="Image 5">
-           </div>
-            <h2 class="heading">scientific Importance:</h2>
-            <p class="para"> Studying meteorites provides valuable insights into the formation and evolution of our solar system. They can also contain clues about the early history of planets, including Earth.</p>
-
-
-        </div>
+      
+      </div>
+      
+       
+      <div class="row">
           
-    <div class="right-panel">
-        <img src="static/Images/meteor1.jpg"  class="img" alt="Image 1">
-        <img src="static/Images/meteor2.jpg"  class="img" alt="Image 2">
-        <img src="static/Images/meteror.jpg"  class="img"alt="Image 3">
-        <img src="static/Images/meteorite.jpg"  class="img"alt="Image 4">
-        <img src="static/Images/meteorite-assortment.jpg"  class="img"alt="Image 5">
-            <!-- Your content for the right panel goes here -->
-        </div> 
         
+        <div class="col-sm-4"> 
+    <div class="card">
+        <!-- Add your text content here -->
+        <h2 class="card-header">Origin:</h2>
+        <!-- <h2 >Origin:</h2> -->
+        <p class="para">Meteorites are fragments of asteroids or 
+            other bodies in our solar system that have survived the
+             journey through Earth's atmosphere and landed on the surface.</p>
+             <p class="para"><img src="static/Images/meteor1.jpg"  class="img" alt="Image 1"></p>
+    </div>
     </div>
 
+    <div class="col-sm-4"> 
+        <div class="card">
+            <!-- Add your text content here -->
+             <h2 class="card-header">Types:</h2>
+            <!-- <h2 >Origin:</h2> -->
+            
+            <!-- <p class="para">Meteorites can be composed of various materials, including rock, metal, and even organic compounds. Some meteorites contain rare elements not typically found on Earth.</p> -->
+            <p class="para">
+            <ul>
+                
+                <ul>
+                    <li><strong>Stony Meteorites:</strong>
+                        <ul>
+                            <li><strong>Chondrites:</strong> </li>
+                            <li><strong>Achondrites:</strong> </li>
+                        </ul>
+                    </li>
+                    <li><strong>Iron Meteorites:</strong>
+                        <ul>
+                           
+                        </ul>
+                    </li>
+                    <li><strong>Stony-Iron Meteorites:</strong>
+                        <ul>
+                            <li><strong>Pallasites:</strong> </li>
+                            <li><strong>Mesosiderites:</strong> </li>
+                        </ul>
+                    </li>
+                </ul>
+                
+            </ul>
+            </p>
+            <p class="para">
+                <img src="static/Images/meteorite-assortment.jpg"  class="img"alt="Image 5">
+            </p>
+        </div>
+        </div>
+
+        <div class="col-sm-4"> 
+            <div class="card">
+                <!-- Add your text content here -->
+                <h2 class="card-header">Size Range:</h2>
+                <!-- <h2 >Origin:</h2> -->
+                <p class="para">Meteorites can vary in size from tiny grains to large masses weighing several tons.
+                     The largest meteorites found on Earth are known as "iron meteorites."</p>
+                     <p class="para"><img src="static/Images/meteor2.jpg"  class="img" alt="Image 1"></p>
+            </div>
+            </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <P></P>
+
+        </div>
+      <div class="col-sm-4"> 
+        <div class="card">
+            <!-- Add your text content here -->
+            <h2 class="card-header">Impact craters:</h2>
+            <p class="para">When a meteorite strikes the Earth's surface, it can create impact craters of varying sizes, depending on the size and speed of the meteorite.</p>
+            <img src="static/Images/meteoror.jpg"  class="img"alt="Image 3">
+        </div>
+       </div>
+      <div class="col-sm-4"> 
+        <div class="card">
+            <!-- Add your text content here -->
+            <h2 class="card-header">scientific Importance:</h2>
+            <p class="para"> Studying meteorites provides valuable insights into the formation and evolution of our solar system. They can also contain clues about the early history of planets, including Earth.</p>
+            <img src="static/Images/meteorite.jpg"  class="img"alt="Image 3">
+        </div>
+      </div>
+   </div>
+
+   
+    
   
     
   </body>

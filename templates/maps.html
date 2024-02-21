@@ -22,7 +22,14 @@
   <header>
     <div id ="headerContent">
     <!-- <a href="/" style ="font-size: 20px; color: white;">Home</a> -->
-    <a href="/" class="btn btn-custom">&#127968 Home</a>
+    <nav>
+      <ul class="list-inline text-right"> <!-- Align the list to the right -->
+         <li> <a href="/" class="btn btn-custom">&#127968 Home</a></li>
+          <li><a href="{{ url_for("charts") }}" class="btn btn-custom">&#128202 Charts</a></li>
+          <li><a href="{{ url_for("maps") }}" class="btn btn-custom">&#127758 Maps</a></li>
+ 
+      </ul>
+  </nav>
     <div class="row">
       <div class="col-md-2">
        
