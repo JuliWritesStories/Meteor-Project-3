@@ -230,7 +230,7 @@ def meteorites_byMass1(bymass):
 
 
     results =  session.query(Meteorite.recclass,Meteorite.year,Meteorite.latitude,Meteorite.longitude,Meteorite.meteorite_name,getattr(Meteorite, "mass(g)")) \
-                .filter(getattr(Meteorite, "mass(g)") < bymass) \
+                .filter(getattr(Meteorite, "mass(g)") > bymass) \
                 .all()
 
 
