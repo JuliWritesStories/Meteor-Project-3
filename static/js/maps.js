@@ -68,6 +68,7 @@ console.log('queryUrl',queryUrl);
                 "name": data[i].name,
                 "classType":data[i].class,
                 "year":data[i].year,
+                "met_count":data.length,
                 "properties": {
                     "mass": data[i].mass
                     
@@ -117,7 +118,8 @@ function createMap(meteoriteData) {
             let geoLocation = feature.geometry.coordinates;
             let classType  = feature.classType;
             let year  = feature.year;
-            layer.bindPopup(`<h3 style="font-size: 28px;">Name: ${name}</h3><hr><p style="font-size: 26px;">Type: ${classType}</p><p style="font-size: 26px;">Year: ${year }</p><p style="font-size: 26px;">Mass: ${mass }</p>`);
+            let met_count =feature.met_count;
+            layer.bindPopup(`<h3 style="font-size: 26px;">Name: ${name}</h3><hr><p style="font-size: 24px;">Type: ${classType}</p><p style="font-size: 24px;">${year }: ${met_count }</p><p style="font-size: 24px;">Mass: ${mass }</p>`);
         }
     });
 
