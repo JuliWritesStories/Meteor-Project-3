@@ -63,7 +63,6 @@ function buildPieChart(sample){
   console.log(url_pie);
 
   d3.json(url_pie).then((data) => {
-
     var labels = data.map(data => data.fall);
     var data = data.map(data => data.count);
     var colors = ["#FFA500", "#CA6F1E"];
@@ -75,41 +74,57 @@ function buildPieChart(sample){
     window.Pie.destroy(); // Destroy the existing chart if it exists
   }
 
-  window.Pie = new Chart(ctx, {
-    type: "pie",
-    data: {
-        labels: labels,
-        datasets: [{
-            data: data,
-            backgroundColor: colors,
-            responsive: true,
-            maintainAspectRatio: true, 
-            aspectRatio: 3
-        }]
-    },
-    options: {
-      plugins: {
-          title: {
-              display: true,
-              text: "Fall Type",
-              fontSize: 40, // Set the font size
-              fontColor: 'black', // Set the font color
-              fontStyle: 'bold' // Set the font style (e.g., bold, italic)
+
+    window.Pie = new Chart(ctx, {
+        type: "pie",
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data,
+                backgroundColor: colors,
+                responsive: true,
+                maintainAspectRatio: true, 
+                aspectRatio: 3
+            }]
+        },
+        options: {
+          plugins: {
+              title: {
+                  display: true,
+                  text: 'Fall Type',
+                  color:"rgba(245, 245, 245, 1)",
+                  font: {
+                    size:20
+                  }
+                  
+              },
+              legend: {
+                display: true,
+                color:"rgba(245, 245, 245, 1)",
+              
+               position: "top", // You can set the position to 'top', 'bottom', 'left', or 'right'
+                labels: {
+                 color:"rgba(245, 245, 245, 1)",
+                 font: {
+                  size: 15,
+                  color: "smokeywhite",
+                  weight: "bold"
+                  }
+                }
+              }
+      
           }
-      },
-      legend: {
-        display: true,
-        position: "top", // You can set the position to 'top', 'bottom', 'left', or 'right'
-        labels: {
-            fontColor: 'black', // Set the font color for the legend labels
-            fontSize: 20 // Set the font size for the legend labels
         }
-      }
-    }
-  });
+       
+      
+    });
+
+   });
+
+
    
   
-});
+
     
   
 
@@ -135,6 +150,7 @@ function buildClassBarChart(sample){
     window.Bar.destroy(); // Destroy the existing chart if it exists
   };
   window.Bar = new Chart(ctx, {
+    scaleFontColor: "#FFFFFF",
     type: "bar",
     data: {
       labels: labels,
@@ -143,7 +159,7 @@ function buildClassBarChart(sample){
           data: counts,
           // backgroundColor: "rgba(54, 162, 235, 0.2)",
           // borderColor: "rgba(54, 162, 235, 1)",
-                backgroundColor: "#EB984E", 
+                backgroundColor: "#7F2B0A", 
                 borderColor: "#F39C12",
                 borderWidth: 3
           
@@ -151,31 +167,50 @@ function buildClassBarChart(sample){
     },
 
     options: {
-      legend: {
-          display: true
-      },
+       
+          
+      
       plugins: {
         title: {
             display: true,
-            text: "Distribution of Meteorites by Class"
+            color:"rgba(245, 245, 245, 1)",
+            text: "Distribution of Meteorites by Class",
+            font:{
+              size:20
+            }
+        },
+
+        legend: {
+          display: true,
+          labels:{
+            color:"rgba(245, 245, 245, 1)"
+
+          },
+          font:{
+            size:20
+          }
+          
         }
-    },
+      },
       indexAxis: "x",
       scales: {
           x: {
               display: true,
               title: {
                   display: true,
+                  color:"rgba(245, 245, 245, 1)",
                   text: "CLASS",
-                  fontSize: 40, // Set the font size
-                  fontColor: 'black', // Set the font color
-                  fontStyle: 'bold' // Set the font style (e.g., bold, italic)
+                 
+              },
+              ticks:{
+                color:"white"
               }
           },
           y: {
               display: true,
               title: {
                   display: true,
+                  color:"rgba(245, 245, 245, 1)",
                   text: 'COUNT  ',
                   fontSize: 40, // Set the font size
                   fontColor: 'black', // Set the font color
@@ -183,7 +218,8 @@ function buildClassBarChart(sample){
               },
               ticks: {
                 beginAtZero: true,
-                stepSize: 1 // Set the step size to 1 for y-axis increments
+                stepSize: 1,
+                color:"white" // Set the step size to 1 for y-axis increments
             }
           }
       },
@@ -193,12 +229,12 @@ function buildClassBarChart(sample){
           fontSize: 40, // Set the font size
           fontColor: 'black', // Set the font color
           fontStyle: 'bold' // Set the font style (e.g., bold, italic)
+        }
       }
-  }
     
         
-  });
-});
+    });
+ });
 
 };
 
@@ -340,7 +376,7 @@ for(i =0;i<value.length;i++){
           mode: "markers",
             marker: {                
                 color: xticks,
-                colorscale:"Electric",    
+                colorscale:"virvidus",    
                 // colors: [
                 //   'rgb(255, 255, 204)',
                 //    'rgb(128, 0, 38)',
@@ -360,8 +396,17 @@ for(i =0;i<value.length;i++){
       // Setup the layout
       let layout = {
         title: "Top 10 Largest Metorites",
-        xaxis: {title: "Mass(g)"},
-        yaxis: {title: "Meteroites",automargin: true}
+        font: {
+          color: 'white'
+        },
+        xaxis: {title: "Mass(g)", font: {
+          color: 'white'
+        }},
+        yaxis: {title: "Meteroites",automargin: true, font: {
+          color: 'white'
+        }},
+        plot_bgcolor:" #406D96",  // Change the background color of the plot area
+        paper_bgcolor: "#406D96"
       };
 
       // Call Plotly to plot the bar chart
@@ -472,7 +517,12 @@ function buildMassPieChart(sample){
    }];
 
    let layout5 = {
-    title: "Meteroite Mass Distribution"
+    title: "Meteroite Mass Distribution",
+    font: {
+      color: 'white'
+    },
+    plot_bgcolor:" #406D96",  // Change the background color of the plot area
+    paper_bgcolor: "#406D96"
     
 };
 
@@ -537,7 +587,7 @@ for(i =0;i<10;i++){
             marker: {
                 size:mass_values.map(mass => Math.sqrt(mass)/10),
                 color: mass_values,
-                colorscale:"Earth",  
+                colorscale:"Turbo",  
                 
 
                 // colors: [
@@ -559,9 +609,18 @@ for(i =0;i<10;i++){
         // Set up the layout
         let layout = {
             title: "Meteroites & Mass",
+            font: {
+              color: 'white'
+            },
             hovermode: "closest",
-            xaxis: {title: "Meteroites"},
-            yaxis: {title: "Mass(g)"},
+            xaxis: {title: "Meteroites", font: {
+              color: 'white'
+            }},
+            yaxis: {title: "Mass(g)" , font: {
+              color: 'white'
+            }},
+            plot_bgcolor:" #406D96",  // Change the background color of the plot area
+            paper_bgcolor: "#406D96"
             // height: 1000,
             // width: 1500
         };
