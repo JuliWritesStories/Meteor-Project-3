@@ -1,5 +1,4 @@
-// JSON data URL
-let url = "/meteorites";
+
 
 function init() {
     // Use D3 to select the dropdown menu
@@ -16,11 +15,11 @@ valuesArray.forEach(function(value) {
         .text(value)
         .attr("value", value);
 });
-     let defaultYear = valuesArray[0];
-        dropdownMenu.property("value", defaultYear);
+     let defaultMass = valuesArray[0];
+        dropdownMenu.property("value", defaultMass);
 
         // Build the initial map
-        buildMap(defaultYear);
+        buildMap(defaultMass);
     // // Fetch the JSON data
     // d3.json(url).then(function(data) {
     //     let types = [];
@@ -54,10 +53,10 @@ valuesArray.forEach(function(value) {
     // });
 }
 
-function buildMap(year) {
+function buildMap(defmass) {
     
     // let queryUrl = "/meteorites/"+year;
-    let queryUrl = `/meteorites_byMass1/${year}`;
+    let queryUrl = `/meteorites_byMass1/${defmass}`;
 console.log('queryUrl',queryUrl);
     // Perform a GET request to the query URL
     d3.json(queryUrl).then(function(data) {
@@ -67,8 +66,10 @@ console.log('queryUrl',queryUrl);
             let feature = {
                 "type": "Feature",
                 "name": data[i].name,
+                "classType":data[i].class,
                 "properties": {
                     "mass": data[i].mass
+                    
                 },
                 "geometry": {
                     "type": "Point",
@@ -109,11 +110,13 @@ function createMap(meteoriteData) {
             });
         },
         onEachFeature: function(feature, layer) {
+            // let class = feature.class;
             let name = feature.name;
             let mass = feature.properties.mass;
             let geoLocation = feature.geometry.coordinates;
-
-            layer.bindPopup(`<h3 style="font-size: 28px;">Mass: ${mass}</h3><hr><p style="font-size: 26px;">Name: ${name}</p><p style="font-size: 26px;">GeoLocation: ${geoLocation}</p>`);
+            let classType  = feature.classType;
+           
+            layer.bindPopup(`<h3 style="font-size: 28px;">Name: ${name}</h3><hr><p style="font-size: 26px;">Type: ${classType}</p><p style="font-size: 26px;">Mass: ${mass }</p>`);
         }
     });
 
@@ -157,11 +160,11 @@ function getColor(mass) {
         return '#00FF00';
     } else if (mass < 50000) {
         return '#FFFF00';
-    } else if (mass < 100000) {
-        return '#41b6c4';
-    } else if (mass < 207000) {
+    } else if (mass < 10000) {
         return '#FFA500';
-    } else if (mass < 409000) {
+    } else if (mass < 200000) {
+        return '#41b6c4';
+    } else if (mass < 400000) {
         return '#081d58';
     } else {
         return '#FF0000';
