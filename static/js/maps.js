@@ -6,7 +6,7 @@ function init() {
   
 
 // Your array of values
-let valuesArray = ["90000","100000", "500000", "100000","200000","400000"];
+let valuesArray = ["90000","100000", "500000", "100000","200000","400000","60000001"];
 
 
 // Append options to the dropdown for each value in the array

@@ -41,8 +41,8 @@ function init() {
       });
          // Set the default valuefrom the list
   //let sample_one = unique_types[0];
-  let sample_one = 1952;
-  dropdownMenu.property("value",1952);
+  let sample_one = 1967;
+  dropdownMenu.property("value",1967);
 
   // Log the value of sample_one
   //  console.log(sample_one);
