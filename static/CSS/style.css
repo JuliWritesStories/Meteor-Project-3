@@ -1,10 +1,10 @@
- /* body {
+ body {
     padding: 0;
     margin: 0;
     background-color: #406D96;
   }
-   */
-  header {
+  
+  #headerContent {
     background-color: rgb(47, 58, 86);
      padding: 10px 20px; 
      position: fixed;
