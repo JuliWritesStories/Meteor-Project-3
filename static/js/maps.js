@@ -6,7 +6,7 @@ function init() {
   
 
 // Your array of values
-let valuesArray = ["90000","100000", "500000", "100000","200000","400000","60000001"];
+let valuesArray = ["0","10000","50000", "100000", "200000","400000","59000000"];
 
 
 // Append options to the dropdown for each value in the array
@@ -67,6 +67,7 @@ console.log('queryUrl',queryUrl);
                 "type": "Feature",
                 "name": data[i].name,
                 "classType":data[i].class,
+                "year":data[i].year,
                 "properties": {
                     "mass": data[i].mass
                     
@@ -115,8 +116,8 @@ function createMap(meteoriteData) {
             let mass = feature.properties.mass;
             let geoLocation = feature.geometry.coordinates;
             let classType  = feature.classType;
-           
-            layer.bindPopup(`<h3 style="font-size: 28px;">Name: ${name}</h3><hr><p style="font-size: 26px;">Type: ${classType}</p><p style="font-size: 26px;">Mass: ${mass }</p>`);
+            let year  = feature.year;
+            layer.bindPopup(`<h3 style="font-size: 28px;">Name: ${name}</h3><hr><p style="font-size: 26px;">Type: ${classType}</p><p style="font-size: 26px;">Year: ${year }</p><p style="font-size: 26px;">Mass: ${mass }</p>`);
         }
     });
 
@@ -124,8 +125,8 @@ function createMap(meteoriteData) {
     let legend = L.control({ position: 'bottomright' });
     legend.onAdd = function(map) {
         let div = L.DomUtil.create('div', 'info legend');
-        let depthColors = ['#00FF00', '#FFFF00', '#FFA500', '#41b6c4', '#081d58', '#FF0000'];
-        let depthLabels = ['0 - 10k', '10k - 50k', '50k - 100k', '100k - 200k', '200k - 400k', '> 400k'];
+        let depthColors = ['#00FF00', '#FFFF00', '#FFA500', '#41b6c4', '#081d58', '#FF0000','#FFC0CB'];
+        let depthLabels = ['0 - 10k', '10k - 50k', '50k - 100k', '100k - 200k', '200k - 400k', '400k-60000k','>60000k'];
         div.style.fontSize = '26px';
         for (let i = 0; i < depthColors.length; i++) {
             div.innerHTML += '<i style="background:' + depthColors[i] + '; width: 40px; height: 40px; display: inline-block;"></i> ' + depthLabels[i] + '<br>';
@@ -160,14 +161,17 @@ function getColor(mass) {
         return '#00FF00';
     } else if (mass < 50000) {
         return '#FFFF00';
-    } else if (mass < 10000) {
+    } else if (mass < 100000) {
         return '#FFA500';
     } else if (mass < 200000) {
         return '#41b6c4';
     } else if (mass < 400000) {
         return '#081d58';
-    } else {
+    } else if (mass < 59000000) {
         return '#FF0000';
+    }
+    else{
+        return '#FFC0CB'
     }
 }
 
