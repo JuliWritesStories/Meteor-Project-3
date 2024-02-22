@@ -59,10 +59,10 @@ function init() {
 };
 //Pie chart using  chart.js library
 function buildPieChart(sample){
-  let url_pie = "/meteorites_grpby/"+sample;
-  console.log(url_pie);
+  let url_piechart = "/meteorites_grpby/"+sample;
+  console.log(url_piechart);
 
-  d3.json(url_pie).then((data) => {
+  d3.json(url_piechart).then((data) => {
     var labels = data.map(data => data.fall);
     var data = data.map(data => data.count);
     var colors = ["#FFA500", "#CA6F1E"];

@@ -259,9 +259,9 @@ def meteorites_byMass1(bymass):
 if __name__ == '__main__':
     # //app.run(debug=True)
     import os
-
+## windows port number 5000 mac port number 8080
+    #port = 8080
     port = 5000
-
     # Open a web browser pointing at the app.
     os.system("open http://localhost:{0}".format(port))
 
