@@ -309,7 +309,7 @@ console.log(url_yr)
         let valueData ={
             "Fell/Found"             :total_meteroites,
             "Types"                  :unique_class.length,
-            "Mass(g)"                :"",
+            // "Mass(g)"                :"",
             "Max"                    :max_mass,
             "Min"                    :min_mass
            
@@ -412,7 +412,7 @@ for(i =0;i<value.length;i++){
 
       // Setup the layout
       let layout = {
-        title: "Top 10 Largest Metorites",
+        title: "Top 10 Largest Meteorites",
         font: {
           color: "white",
           family:  "sans-serif",
