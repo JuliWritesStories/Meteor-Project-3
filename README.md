@@ -15,3 +15,11 @@ Ethical considerations were made for this project by only using publically avail
 
 Rescources:
 Nasa Meteoritical Society data set: https://catalog.data.gov/dataset/meteorite-landings
+Requirements for use:
+Python
+sqllite
+Flask
+Flask-Cors
+Pandas
+ploty.js
+chart.js
